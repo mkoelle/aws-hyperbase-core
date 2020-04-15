@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Creates a LogGroup for Hosted Zone logging'
+Resources:
+  HostedZoneLogGroup: 
+    Type: AWS::Logs::LogGroup
+    Properties: 
+      LogGroupName: '/aws/route53/logging'
+      RetentionInDays: 7
+Outputs:
+  LogGroup:
+    Value: !Ref HostedZoneLogGroup
+  LogGroupArn:
+    Value: !GetAtt HostedZoneLogGroup.Arn
+    Export:
+      Name: 'HostedZone-LogGroup-Arn'
