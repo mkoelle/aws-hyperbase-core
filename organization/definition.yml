@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: '2010-09-09-OC'
+Description: default template generated for organization with master account 438902864846
+
+Organization:
+  MasterAccount:
+    Type: OC::ORG::MasterAccount
+    Properties:
+      AccountName: Mkoelle Hyperbase
+      Alias: mk-hyperbase-root
+      AccountId: '438902864846'
+      RootEmail: mkoelle+aws-hyperbase@gmail.com
+      Tags:
+        budget-alarm-threshold: '20'
+
+  OrganizationRoot:
+    Type: OC::ORG::OrganizationRoot
+    Properties:
+      DefaultOrganizationAccessRoleName: OrganizationAccountAccessRole
+      ServiceControlPolicies:
+        - !Ref RestrictUnusedRegionsSCP
+
+  ProductionAccount:
+    Type: OC::ORG::Account
+    Properties:
+      RootEmail: mkoelle+hyperbase-prod@gmail.com
+      AccountName: Mkoelle Hyperbase Production
+      Alias: mk-hyperbase-prod
+      Tags:
+        budget-alarm-threshold: '20'
+        account-owner-email: mkoelle+aws-hyperbase@gmail.com
+
+  DevelopmentAccount:
+    Type: OC::ORG::Account
+    Properties:
+      RootEmail: mkoelle+hyperbase-dev@gmail.com
+      AccountName: Mkoelle Hyperbase Development
+      Alias: mk-hyperbase-dev
+      Tags:
+        budget-alarm-threshold: '20'
+        account-owner-email: mkoelle+aws-hyperbase@gmail.com
+
+  DevelopmentOU:
+    Type: OC::ORG::OrganizationalUnit
+    Properties:
+      OrganizationalUnitName: development
+      Accounts:
+        - !Ref DevelopmentAccount
+
+  ProductionOU:
+    Type: OC::ORG::OrganizationalUnit
+    Properties:
+      OrganizationalUnitName: production
+      Accounts:
+        - !Ref ProductionAccount
+
+  RestrictUnusedRegionsSCP:
+    Type: OC::ORG::ServiceControlPolicy
+    Properties:
+      PolicyName: RestrictUnusedRegions
+      Description: Restrict Unused regions
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyUnsupportedRegions
+            Effect: Deny
+            NotAction:
+              - 'cloudfront:*'
+              - 'iam:*'
+              - 'route53:*'
+              - 'support:*'
+            Resource: '*'
+            Condition:
+              StringNotEquals:
+                'aws:RequestedRegion':
+                  - us-west-1
+                  - us-west-2
+                  - us-east-1
+                  - us-east-2
