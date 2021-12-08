@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "deploy": "npx org-formation update organization.yml",
-    "deploy-domain": "npx org-formation update domains.yml"
+    "deploy-domain": "npx org-formation update-stacks domains.yml --stack-name com-mkoelle-domain"
   },
   "author": "",
   "license": "ISC",

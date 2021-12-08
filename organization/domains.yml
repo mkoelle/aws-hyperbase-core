@@ -26,7 +26,7 @@ OrganizationBindings:
 
   # binding for HostedZone, HostedZoneIdParam, HostedZoneNameParam
   HostedZoneBinding:
-    AccountsWithTag: subdomain
+    Account: !Ref DevelopmentAccount
 
   # binding for RootHostedZone, ParentNsRecord
   RootHostedZoneBinding:
@@ -44,7 +44,7 @@ Resources:
     Properties:
       HostedZoneConfig:
         Comment: Domain Hosted Zone
-      Name: !Sub '${AWSAccount.Tags.subdomain}.${rootHostedZoneName}.'
+      Name: !Sub 'shadow.${rootHostedZoneName}.'
 
   HostedZoneIdParam:
     Type: AWS::SSM::Parameter
@@ -60,7 +60,7 @@ Resources:
     Properties:
       Name: !Sub '${resourcePrefix}-domains-hosted-zone-name'
       Type: String
-      Value: !Sub '${AWSAccount.Tags.subdomain}.${rootHostedZoneName}.'
+      Value: !Sub 'shadow.${rootHostedZoneName}.'
 
   #=========================================#
   # Parent Record
@@ -86,7 +86,7 @@ Resources:
     Properties:
       Type: NS
       HostedZoneName: !Sub '${rootHostedZoneName}.'
-      Name: !Sub '${CurrentAccount.Tags.subdomain}.${rootHostedZoneName}.'
+      Name: !Sub 'shadow.${rootHostedZoneName}.'
       TTL: 86400
       ResourceRecords: !GetAtt CurrentAccount.Resources.HostedZone.NameServers
 
