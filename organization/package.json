@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "npx org-formation update organization.yml",
+    "deploy-domain": "npx org-formation update domains.yml"
   },
   "author": "",
   "license": "ISC",
