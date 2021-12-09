@@ -1,0 +1,18 @@
+Parameters:
+  <<: !Include '../../_parameters.yml'
+
+mkoelle:
+  Type: update-stacks
+  Template: ./domains.yml
+  StackName: 'mkoelle-domain'
+  Parameters:
+    resourcePrefix: com-mkoelle
+    rootHostedZoneName: mkoelle.com
+
+# jkpiano:
+#   Type: update-stacks
+#   Template: ./domains.yml
+#   StackName: 'jkpiano-domain'
+#   Parameters:
+#     resourcePrefix: com-jkpiano
+#     rootHostedZoneName: jkpiano.com
