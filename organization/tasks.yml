@@ -10,6 +10,10 @@ Definitions:
       department: Platform
       project: Infrastructure
 
+# ServiceControlPolicies:
+#   Type: include
+#   Path: ./stacks/010-scps/_tasks.yml
+
 BudgetAlarms:
   Type: include
   Path: ./stacks/040-budgets/_tasks.yml
