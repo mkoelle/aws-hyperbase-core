@@ -70,6 +70,22 @@ Resources:
       HostedZoneConfig:
         Comment: Root domain
       Name: !Ref rootHostedZoneName
+  
+  RootHostedZoneIdParam:
+    Type: AWS::SSM::Parameter
+    OrganizationBinding: !Ref RootHostedZoneBinding
+    Properties:
+      Name: !Sub '${resourcePrefix}-domains-hosted-zone-id'
+      Type: String
+      Value: !GetAtt AWSAccount.Resources.RootHostedZone
+
+  RootHostedZoneNameParam:
+    Type: AWS::SSM::Parameter
+    OrganizationBinding: !Ref RootHostedZoneBinding
+    Properties:
+      Name: !Sub '${resourcePrefix}-domains-hosted-zone-name'
+      Type: String
+      Value: !Sub '${rootHostedZoneName}.'
 
   # be aware that changing the logicalName for a AWS::Route53::RecordSet resource
   # might result in the Record being deleted. this unfortunately seems to be a cloudformation issue
@@ -86,4 +102,3 @@ Resources:
       Name: !Sub 'shadow.${rootHostedZoneName}.'
       TTL: 86400
       ResourceRecords: !GetAtt CurrentAccount.Resources.HostedZone.NameServers
-
