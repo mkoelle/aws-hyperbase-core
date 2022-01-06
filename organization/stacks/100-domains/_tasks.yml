@@ -4,15 +4,19 @@ Parameters:
 mkoelle:
   Type: update-stacks
   Template: ./domains.yml
-  StackName: 'mkoelle-domain'
+  StackName: 'com-mkoelle-domain'
   Parameters:
     resourcePrefix: com-mkoelle
     rootHostedZoneName: mkoelle.com
+  Tags:
+    Code: aws-hyperbase-core
+    Project: com.mkoelle
+    Owner: mkoelle
 
 # jkpiano:
 #   Type: update-stacks
 #   Template: ./domains.yml
-#   StackName: 'jkpiano-domain'
+#   StackName: 'com-jkpiano-domain'
 #   Parameters:
 #     resourcePrefix: com-jkpiano
 #     rootHostedZoneName: jkpiano.com

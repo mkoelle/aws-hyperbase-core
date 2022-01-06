@@ -33,6 +33,8 @@ GuardDuty:
   Parameters:
     resourcePrefix: !Ref resourcePrefix
     accountId: !Ref accountId
+  Tags:
+    <<: !Include ../../_default_tags.yml
 
 # bucket that contains the trusted IP addresses that are excluded from GuardDuty findings
 GuardDutyTrustedIpsBucket:
@@ -47,6 +49,8 @@ GuardDutyTrustedIpsBucket:
   Parameters:
     resourcePrefix: !Ref resourcePrefix
     bucketName: !Sub '${resourcePrefix}-${appName}-trusted-ips'
+  Tags:
+    <<: !Include ../../_default_tags.yml
 
 GuardDutyTrustedIps:
   Type: copy-to-s3
@@ -73,3 +77,5 @@ GuardDutyExtension:
     resourcePrefix: !Ref resourcePrefix
     detectorId: !CopyValue [ !Sub '${resourcePrefix}-${appName}-detector-id' ]
     bucketName: !CopyValue [ !Sub '${resourcePrefix}-${appName}-trusted-ips-bucket-name' ]
+  Tags:
+    <<: !Include ../../_default_tags.yml

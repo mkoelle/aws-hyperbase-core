@@ -1,6 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09-OC'
 
 Parameters:
+  resourcePrefix:
+    Type: String
+
   bucketName:
     Type: String
 
@@ -61,7 +64,7 @@ Resources:
             Effect: Deny
             Principal: "*"
             Action: "*"
-            Resource: !Sub 'arn:aws:s3:::${CloudTrailS3Bucket}/*'
+            Resource: !Sub 'arn:aws:s3:::${CloudTrailBucket}/*'
             Condition:
               Bool:
                 aws:SecureTransport: False

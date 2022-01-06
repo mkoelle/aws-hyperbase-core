@@ -3,8 +3,9 @@ Description: default template generated for organization with master account 438
 
 Definitions:
   - &defaultAccountTags
-      department: Platform
-      project: Infrastructure
+      Code: aws-hyperbase-core
+      Project: Infrastructure
+      Owner: mkoelle
       budget-alarm-threshold: 10
       cloudwatch-cloudTrail-log-retention-period: 90
 

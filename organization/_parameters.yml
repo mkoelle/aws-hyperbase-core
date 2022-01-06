@@ -1,6 +1,6 @@
 resourcePrefix:
   Type: String
-  Default: mkoelle
+  Default: infra
 
 primaryRegion:
   Type: String

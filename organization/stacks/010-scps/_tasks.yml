@@ -16,6 +16,8 @@ DenyUnsupportedRegions:
   Parameters:
     targetIds: [!Ref OrganizationRoot]
     supportedRegions: !Ref allRegions
+  Tags:
+    <<: !Include ../../_default_tags.yml
 
 # SelfProtect:
 #   Type: update-stacks
@@ -52,3 +54,5 @@ DenyLargeEc2Instances:
   OrganizationBindings:
     TargetBinding:
       Account: "*"
+  Tags:
+    <<: !Include ../../_default_tags.yml
