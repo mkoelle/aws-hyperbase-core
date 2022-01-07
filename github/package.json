@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "octokit": "^1.7.1"
+    "octokit": "^1.7.1",
+    "tweetsodium": "^0.0.5"
   }
 }
