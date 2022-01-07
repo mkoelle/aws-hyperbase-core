@@ -29,3 +29,7 @@ GuardDuty:
 Domains:
   Type: include
   Path: ./stacks/100-domains/_tasks.yml
+
+Iam:
+  Type: include
+  Path: ./stacks/110-iam/_tasks.yml
