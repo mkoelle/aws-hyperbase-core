@@ -1,0 +1,14 @@
+Parameters:
+  <<: !Include '../../_parameters.yml'
+
+mkoelle:
+  Type: update-stacks
+  Template: ./iam.yml
+  OrganizationBindings:
+    AllBinding:
+      Account: '*'
+      IncludeMasterAccount: true
+  StackName: !Sub '${resourcePrefix}-iam'
+  Tags:
+    <<: !Include ../../_default_tags.yml
+
