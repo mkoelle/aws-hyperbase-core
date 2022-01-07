@@ -24,16 +24,8 @@ const main = async () => {
         repository_id: repo.id,
         environment_name: 'dev'
       })
-      // console.log(key)
-      // Convert the message and key to Uint8Array's (Buffer implements that interface)
-      const messageBytes = Buffer.from('I am a seeeeecret');
-      const keyBytes = Buffer.from(key.data.key, 'base64');
 
-      // Encrypt using LibSodium.
-      const encryptedBytes = sodium.seal(messageBytes, keyBytes);
-
-      // Base64 the encrypted secret
-      const encrypted = Buffer.from(encryptedBytes).toString('base64');
+      const encrypted = encryptStringWithKey(key.data.key, 'Im a seeeecret');
 
       await octokit.request('PUT /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name}', {
         repository_id: repo.id,
@@ -47,3 +39,16 @@ const main = async () => {
 }
 
 main()
+
+function encryptStringWithKey(key, message) {
+  // Convert the message and key to Uint8Array's (Buffer implements that interface)
+  const messageBytes = Buffer.from(message);
+  const keyBytes = Buffer.from(key, 'base64');
+
+  // Encrypt using LibSodium.
+  const encryptedBytes = sodium.seal(messageBytes, keyBytes);
+
+  // Base64 the encrypted secret
+  const encrypted = Buffer.from(encryptedBytes).toString('base64');
+  return encrypted;
+}
