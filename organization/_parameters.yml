@@ -1,0 +1,19 @@
+resourcePrefix:
+  Type: String
+  Default: infra
+
+primaryRegion:
+  Type: String
+  Default: us-east-1
+
+organizationPrincipalId:
+  Type: String
+  Default: !Ref ORG::PrincipalOrgID
+
+allRegions:
+  Type: List<String>
+  Default:
+    - us-east-1
+    - us-east-2
+    - us-west-1
+    - us-west-2

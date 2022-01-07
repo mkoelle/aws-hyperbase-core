@@ -1,0 +1,164 @@
+AWSTemplateFormatVersion: '2010-09-09-OC'
+Description: default template generated for organization with master account 438902864846
+
+Definitions:
+  - &defaultAccountTags
+      Code: aws-hyperbase-core
+      Project: Infrastructure
+      Owner: mkoelle
+      budget-alarm-threshold: 10
+      cloudwatch-cloudTrail-log-retention-period: 90
+
+Organization:
+##############################
+# OU'S
+##############################
+
+  OrganizationRoot:
+    Type: OC::ORG::OrganizationRoot
+    Properties:
+      DefaultOrganizationAccessRoleName: OrganizationAccountAccessRole
+      ServiceControlPolicies:
+        - !Ref RestrictUnusedRegionsSCP
+        - !Ref RestrictLargeEc2SCP
+
+  # Organizational Unit used for dev and testing workloads
+  DevOU:
+    Type: OC::ORG::OrganizationalUnit
+    Properties:
+      OrganizationalUnitName: dev
+      Accounts:
+        - !Ref DevelopmentAccount
+
+  # Organizational Unit used for Production workloads
+  ProdOu:
+    Type: OC::ORG::OrganizationalUnit
+    Properties:
+      OrganizationalUnitName: prod
+      Accounts: 
+        - !Ref ProductionAccount
+
+  # Organizational Unit used for shared infrastructure services
+  SharedOu:
+    Type: OC::ORG::OrganizationalUnit
+    Properties:
+      OrganizationalUnitName: shared
+      Accounts:
+        - !Ref AuditAccount
+
+  # Organizational Unit that contains accounts to be deleted from organization
+  SuspendedOu:
+    Type: OC::ORG::OrganizationalUnit
+    Properties:
+      OrganizationalUnitName: suspended
+      Accounts: []
+
+
+##############################
+# ACCOUNTS
+##############################
+  ManagementAccount:
+    Type: OC::ORG::MasterAccount
+    Properties:
+      Alias: hyperbase-management
+      AccountName: Hyperbase Management
+      AccountId: '438902864846'
+      RootEmail: mkoelle+aws-hyperbase@gmail.com
+      Tags:
+        <<: *defaultAccountTags
+
+  ProductionAccount:
+    Type: OC::ORG::Account
+    Properties:
+      Alias: hyperbase-prod
+      AccountName: Hyperbase Production
+      RootEmail: mkoelle+hyperbase-prod@gmail.com
+      Tags:
+        <<: *defaultAccountTags
+        account-owner-email: mkoelle+aws-hyperbase@gmail.com
+
+  DevelopmentAccount:
+    Type: OC::ORG::Account
+    Properties:
+      Alias: hyperbase-dev
+      AccountName: Hyperbase Development
+      RootEmail: mkoelle+hyperbase-dev@gmail.com
+      Tags:
+        <<: *defaultAccountTags
+        account-owner-email: mkoelle+aws-hyperbase@gmail.com
+
+  AuditAccount:
+    Type: OC::ORG::Account
+    Properties:
+      Alias: hyperbase-audit
+      AccountName: Hyperbase Audit
+      RootEmail: mkoelle+hyperbase-audit@gmail.com
+      Tags:
+        <<: *defaultAccountTags
+        account-owner-email: mkoelle+aws-hyperbase@gmail.com
+
+##############################
+# Service Control Policies
+##############################
+
+  RestrictUnusedRegionsSCP:
+    Type: OC::ORG::ServiceControlPolicy
+    Properties:
+      Description: Restricts the use of unsupported regions
+      PolicyName: DenyUnsupportedRegions
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyUnsupportedRegions
+            Effect: Deny
+            NotAction:
+              - 'acm:*'
+              - 'budgets:*'
+              - 'chatbot:*'
+              - 'cloudfront:*'
+              - 'iam:*'
+              - 'sts:*'
+              - 'kms:*'
+              - 'route53:*'
+              - 'route53domains:*'
+              - 'route53resolver:*'
+              - 'organizations:*'
+              - 'support:*'
+              - 'waf:*'
+              - 'wafv2:*'
+            Resource: '*'
+            Condition:
+              StringNotEquals:
+                'aws:RequestedRegion': 
+                  - us-east-1
+                  - us-east-2
+                  - us-west-1
+                  - us-west-2
+              # NOTE: this last condition can be used for roles that need access to unsupported regions
+              # ArnNotLike:
+              #   'aws:PrincipalARN':
+              #     - 'arn:aws:iam::*:role/role-name'
+
+  RestrictLargeEc2SCP:
+    Type: OC::ORG::ServiceControlPolicy
+    Properties:
+      PolicyName: DenyLargeEC2Instances
+      Description: Deny running EC2 instances larger than 2xlarge
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: DenyLargerThan2XLarge
+            Effect: Deny
+            Action:
+              - "ec2:RunInstances"
+            Resource: "arn:aws:ec2:*:*:instance/*"
+            Condition:
+              ForAnyValue:StringNotLike:
+                "ec2:InstanceType":
+                  - "*.nano"
+                  - "*.small"
+                  - "*.micro"
+                  - "*.medium"
+                  - "*.large"
+                  - "*.xlarge"
+                  - "*.2xlarge"

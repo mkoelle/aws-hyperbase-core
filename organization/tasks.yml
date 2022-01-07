@@ -1,0 +1,31 @@
+Parameters:
+  <<: !Include './_parameters.yml'
+
+OrganizationUpdate:
+  Type: update-organization
+  Template: ./organization.yml
+
+Definitions:
+  - &defaultTags
+      department: Platform
+      project: Infrastructure
+
+# ServiceControlPolicies:
+#   Type: include
+#   Path: ./stacks/010-scps/_tasks.yml
+
+BudgetAlarms:
+  Type: include
+  Path: ./stacks/040-budgets/_tasks.yml
+
+CloudTrail:
+  Type: include
+  Path: ./stacks/060-cloud-trail/_tasks.yml
+
+GuardDuty:
+  Type: include
+  Path: ./stacks/070-guard-duty/_tasks.yml
+
+Domains:
+  Type: include
+  Path: ./stacks/100-domains/_tasks.yml
