@@ -102,3 +102,18 @@ Resources:
       Name: !Sub 'shadow.${rootHostedZoneName}.'
       TTL: 86400
       ResourceRecords: !GetAtt CurrentAccount.Resources.HostedZone.NameServers
+
+
+# Resources:
+#   HostedZoneLogGroup: 
+#     Type: AWS::Logs::LogGroup
+#     Properties: 
+#       LogGroupName: '/aws/route53/logging'
+#       RetentionInDays: 7
+# Outputs:
+#   LogGroup:
+#     Value: !Ref HostedZoneLogGroup
+#   LogGroupArn:
+#     Value: !GetAtt HostedZoneLogGroup.Arn
+#     Export:
+#       Name: 'HostedZone-LogGroup-Arn'
