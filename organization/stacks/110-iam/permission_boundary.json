@@ -1,0 +1,19 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllActionsSameProject",
+            "Effect": "Deny",
+            "Action": [
+                "*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:ResourceTag/Project": "${aws:PrincipalTag/Project}",
+                    "aws:RequestTag/Project": "${aws:PrincipalTag/Project}"
+                }
+            }
+        }
+    ]
+}

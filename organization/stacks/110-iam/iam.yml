@@ -17,3 +17,18 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AdministratorAccess
       
+  ProjectDeveloperBoundary:
+    Type: AWS::IAM::ManagedPolicy
+    OrganizationBinding: !Ref AllBinding
+    Properties:
+      ManagedPolicyName: AllActionsSameProject
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Deny"
+            Action:
+              - '*'
+            Resource: '*'
+            Condition:
+              StringNotEqualsIfExists:
+                "aws:ResourceTag/Project": "${aws:PrincipalTag/Project}"
