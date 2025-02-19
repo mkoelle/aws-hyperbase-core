@@ -5,8 +5,12 @@
 Will access your aws account, and your github account to update all repositories with the topic `AWS` with deployment environments and secrets.
 
 > ⚠️Does not work with private repos
-> TODO: Github REST api used in getUserReposWithTopic does not return private repos. \
+> 
+> Github REST api used in getUserReposWithTopic does not return private repos. \
 > Use graphql endpoint instead.
+>
+> Also: Github environments are only on public repos by default
+
 
 ```sh
 # pre-run
