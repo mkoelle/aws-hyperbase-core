@@ -13,10 +13,14 @@ mkoelle:
     Project: com.mkoelle
     Owner: mkoelle
 
-# jkpiano:
-#   Type: update-stacks
-#   Template: ./domains.yml
-#   StackName: 'com-jkpiano-domain'
-#   Parameters:
-#     resourcePrefix: com-jkpiano
-#     rootHostedZoneName: jkpiano.com
+jkpiano:
+  Type: update-stacks
+  Template: ./domains.yml
+  StackName: 'com-jkpiano-domain'
+  Parameters:
+    resourcePrefix: com-jkpiano
+    rootHostedZoneName: jkpiano.com
+  Tags:
+    Code: aws-hyperbase-core
+    Project: com.jkpiano
+    Owner: mkoelle
