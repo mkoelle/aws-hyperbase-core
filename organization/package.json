@@ -13,6 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-organization-formation": "^0.9.19"
+    "aws-organization-formation": "^1.0.16"
   }
 }
