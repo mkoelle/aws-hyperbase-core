@@ -24,7 +24,7 @@ async function generateNewAccessKey() {
 }
 exports.generateNewAccessKey = generateNewAccessKey;
 
-async function deleteOldAccessKey(newKeyId) {
+async function deleteOldAccessKeys(newKeyId) {
   const listKeysResponse = await iamClient.send(new ListAccessKeysCommand({
     UserName: "AutomatedDeployer"
   }));
@@ -38,4 +38,4 @@ async function deleteOldAccessKey(newKeyId) {
     }));
   });
 }
-exports.deleteOldAccessKey = deleteOldAccessKey;
+exports.deleteOldAccessKeys = deleteOldAccessKeys;

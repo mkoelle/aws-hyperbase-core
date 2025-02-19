@@ -1,0 +1,23 @@
+{
+  "name": "aws-hyperbase-core",
+  "version": "1.0.0",
+  "description": "Core AWS provisioning for the MKoelle Hyperbase Aws accounts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mkoelle/aws-hyperbase-core.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mkoelle/aws-hyperbase-core/issues"
+  },
+  "homepage": "https://github.com/mkoelle/aws-hyperbase-core#readme",
+  "workspaces":[
+    "core",
+    "github",
+    "organization"
+  ]
+}
