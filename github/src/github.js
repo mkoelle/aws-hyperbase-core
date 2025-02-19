@@ -2,14 +2,14 @@ const { Octokit } = require("@octokit/core");
 const { encryptStringWithKey } = require("./encryption");
 const octokit = new Octokit({ auth: `${process.env.GITHUB_ACCESS_TOKEN}` });
 
-async function getReposWithTopic(user,topic) {
-  const repos = await octokit.request('GET /users/{username}/repos', {
+async function getUserReposWithTopic(user,topic) {
+  const repos = await octokit.request('GET /users/{username}/repos?type=all', {
     username: user
   });
   const aws_repos = repos.data.filter(repo => repo.topics.includes(topic));
   return aws_repos;
 }
-exports.getReposWithTopic = getReposWithTopic;
+exports.getReposWithTopic = getUserReposWithTopic;
 
 async function createEnvironment(repo, name) {
   await octokit.request('PUT /repos/{owner}/{repo}/environments/{environment_name}', {

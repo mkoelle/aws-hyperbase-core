@@ -11,14 +11,14 @@ const main = async () => {
   const accessKey = await aws.generateNewAccessKey()
   Promise.all(
     aws_repos.map(async repo => {
-      console.log(`updating ${env} deployment credentials for ${repo.name}`)
+      console.log(`updating ${env} deployment credentials for ${repo.name} on account ${account}`)
       await github.createEnvironment(repo.name, env);
       await github.putEnvironmentSecret(repo.id, env, "AWS_ACCOUNT", account);
       await github.putEnvironmentSecret(repo.id, env, "AWS_ACCESS_KEY_ID", accessKey.AccessKeyId);
       await github.putEnvironmentSecret(repo.id, env, "AWS_SECRET_ACCESS_KEY", accessKey.SecretAccessKey);
     })
   )
-  aws.deleteOldAccessKey(accessKey.AccessKeyId)
+  aws.deleteOldAccessKeys(accessKey.AccessKeyId)
 }
 
 main()

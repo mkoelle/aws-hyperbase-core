@@ -9,9 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-iam": "^3.45.0",
-    "@aws-sdk/client-sts": "^3.45.0",
-    "octokit": "^1.7.1",
-    "tweetsodium": "^0.0.5"
+    "@aws-sdk/client-iam": "^3.750.0",
+    "@aws-sdk/client-sts": "^3.750.0",
+    "libsodium-wrappers": "^0.7.15",
+    "octokit": "^4.1.2"
   }
 }
