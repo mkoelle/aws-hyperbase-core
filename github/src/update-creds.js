@@ -4,6 +4,7 @@ const aws = require("./aws");
 const github = require("./github");
 
 const main = async () => {
+  console.log('starting')
   const aws_repos = await github.getReposWithTopic('mkoelle', 'aws');
   const env = await aws.getAccountEnv()
   const account = await aws.getAccountId()
