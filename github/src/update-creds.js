@@ -9,7 +9,7 @@ const main = async () => {
   const env = await aws.getAccountEnv()
   const account = await aws.getAccountId()
   const accessKey = await aws.generateNewAccessKey()
-  Promise.all(
+  await Promise.all(
     aws_repos.map(async repo => {
       console.log(`updating ${env} deployment credentials for ${repo.name} on account ${account}`)
       await github.createEnvironment(repo.name, env);
@@ -18,7 +18,7 @@ const main = async () => {
       await github.putEnvironmentSecret(repo.id, env, "AWS_SECRET_ACCESS_KEY", accessKey.SecretAccessKey);
     })
   )
-  aws.deleteOldAccessKeys(accessKey.AccessKeyId)
+  await aws.deleteOldAccessKeys(accessKey.AccessKeyId)
 }
 
 main()

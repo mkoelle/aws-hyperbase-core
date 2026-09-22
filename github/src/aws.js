@@ -31,11 +31,11 @@ async function deleteOldAccessKeys(newKeyId) {
   const oldKey = listKeysResponse.AccessKeyMetadata.filter(key => key.AccessKeyId !== newKeyId);
   if (oldKey.length === 0)
     return;
-  oldKey.forEach(async (key) => {
-    await iamClient.send(new DeleteAccessKeyCommand({
+  await Promise.all(oldKey.map((key) =>
+    iamClient.send(new DeleteAccessKeyCommand({
       UserName: "AutomatedDeployer",
       AccessKeyId: key.AccessKeyId
-    }));
-  });
+    }))
+  ));
 }
 exports.deleteOldAccessKeys = deleteOldAccessKeys;
