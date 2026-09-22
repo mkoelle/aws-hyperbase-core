@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FILES="./stacks/*.yml"
+FILES="./stacks/*/*.yml"
 for f in $FILES
 do
 # FAILSAFE #
