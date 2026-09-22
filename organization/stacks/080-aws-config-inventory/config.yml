@@ -16,7 +16,6 @@ Resources:
     Type: 'AWS::S3::Bucket'
     Properties:
       BucketName: !Ref bucketName
-      AccessControl: BucketOwnerFullControl
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true

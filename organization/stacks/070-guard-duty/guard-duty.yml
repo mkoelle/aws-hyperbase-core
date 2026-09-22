@@ -17,7 +17,6 @@ Resources:
     UpdateReplacePolicy: Retain
     Properties:
       BucketName: !Sub '${resourcePrefix}-guardduty-finding'
-      AccessControl: Private
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true

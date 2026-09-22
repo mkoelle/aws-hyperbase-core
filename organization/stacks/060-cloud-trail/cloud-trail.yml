@@ -19,7 +19,6 @@ Resources:
     UpdateReplacePolicy: Retain
     Properties:
       BucketName: !Ref bucketName
-      AccessControl: Private
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
@@ -78,5 +77,3 @@ Resources:
       IncludeGlobalServiceEvents: true
       IsMultiRegionTrail: true
       EnableLogFileValidation: true
-      CloudWatchLogsLogGroupArn: ''
-      CloudWatchLogsRoleArn: ''
