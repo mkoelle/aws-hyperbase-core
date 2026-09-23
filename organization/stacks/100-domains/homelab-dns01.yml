@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: '2010-09-09-OC'
+
+# Include file that contains Organization Section.
+# The Organization Section describes Accounts, Organizational Units, etc.
+Organization: !Include ../../organization.yml
+
+# Any Binding that does not explicitly specify a region will default to this.
+# Value can be either string or list
+DefaultOrganizationBindingRegion: us-east-1
+
+OrganizationBindings:
+
+  ProductionBinding:
+    Account: !Ref ProductionAccount
+
+Parameters:
+
+  rootHostedZoneId:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: com-mkoelle-domains-hosted-zone-id
+
+Resources:
+
+  #=========================================#
+  # Homelab cert-manager DNS-01 (Zitadel)
+  #=========================================#
+
+  # Scoped to record writes under hl.mkoelle.com only (route53:ChangeResourceRecordSetsNormalizedRecordNames
+  # condition) -- cert-manager's ACME DNS-01 solver for id.hl.mkoelle.com
+  # (Kubernetes homelab cluster, outside this AWS org). No AccessKey resource
+  # here, same as DeploymentUser in
+  # ../110-iam/iam.yml -- generate one out-of-band
+  # (aws iam create-access-key --user-name homelab-cert-manager-dns01) so the
+  # secret never lands in CloudFormation state.
+  HomelabDns01User:
+    Type: AWS::IAM::User
+    OrganizationBinding: !Ref ProductionBinding
+    Properties:
+      UserName: homelab-cert-manager-dns01
+      Policies:
+        - PolicyName: route53-dns01-scoped
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: route53:GetChange
+                Resource: 'arn:aws:route53:::change/*'
+              - Effect: Allow
+                Action: route53:ListResourceRecordSets
+                Resource: !Sub 'arn:aws:route53:::hostedzone/${rootHostedZoneId}'
+              - Effect: Allow
+                Action: route53:ChangeResourceRecordSets
+                Resource: !Sub 'arn:aws:route53:::hostedzone/${rootHostedZoneId}'
+                Condition:
+                  'ForAllValues:StringLike':
+                    route53:ChangeResourceRecordSetsNormalizedRecordNames:
+                      - 'hl.mkoelle.com'
+                      - '*.hl.mkoelle.com'
+                  'Null':
+                    route53:ChangeResourceRecordSetsNormalizedRecordNames: 'false'

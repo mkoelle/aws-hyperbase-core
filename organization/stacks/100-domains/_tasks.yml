@@ -24,3 +24,13 @@ jkpiano:
     Code: aws-hyperbase-core
     Project: com.jkpiano
     Owner: mkoelle
+
+homelab-dns01:
+  Type: update-stacks
+  DependsOn: mkoelle
+  Template: ./homelab-dns01.yml
+  StackName: 'com-mkoelle-homelab-dns01'
+  Tags:
+    Code: aws-hyperbase-core
+    Project: com.mkoelle
+    Owner: mkoelle
